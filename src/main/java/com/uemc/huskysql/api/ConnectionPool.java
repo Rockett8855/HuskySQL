@@ -14,9 +14,8 @@ public interface ConnectionPool {
      * This temporary connection will be disposed on close
      * 
      * @return A thread safe connection
-     * @throws SQLException If and error occurs while checking the validity of the connection object
      */
-    Connection getConnection() throws SQLException;
+    Connection getConnection();
     
     /**
      * Gets the number of open connections ready to be used
