@@ -34,13 +34,17 @@ public class HuskyPool implements ConnectionPool {
     }
 
     @Override
-    public Connection getConnection() throws SQLException {
+    public Connection getConnection() {
         Iterator<Connection> it = openConnections.iterator();
         while(it.hasNext()) {
             Connection next = it.next();
             it.remove();
-            if(next.isClosed()) {
-                
+            try {
+                if(!next.isValid(2)) {
+                    next = refresh();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
             this.inUseConnectionNames.add(next.toString());
             return next;
@@ -152,5 +156,9 @@ public class HuskyPool implements ConnectionPool {
             }
             it.remove();
         }
+    }
+    
+    private HuskyConnection refresh() {
+        return new HuskyConnection(createConnection(), this);
     }
 }
