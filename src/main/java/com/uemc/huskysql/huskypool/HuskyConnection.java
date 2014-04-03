@@ -330,4 +330,8 @@ public class HuskyConnection implements Connection, ReusableConnection {
     public String toString() {
         return this.name;
     }
+    
+    public void superClose() throws SQLException {
+        base.close();
+    }
 }

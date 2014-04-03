@@ -83,4 +83,11 @@ public interface ConnectionPool {
      * @return Executor to submit DatabaseCalls to
      */
     DatabaseCallExecutor getDatabaseCallExecutor();
+    
+    /**
+     * Close the connection pool, closes all connections
+     * 
+     * @throws SQLException if something goes wrong closing the connections
+     */
+    void close() throws SQLException;
 }

@@ -141,4 +141,16 @@ public class HuskyPool implements ConnectionPool {
     public DatabaseCallExecutor getDatabaseCallExecutor() {
         return ex;
     }
+
+    @Override
+    public void close() throws SQLException {
+        Iterator<Connection> it = openConnections.iterator();
+        while(it.hasNext()) {
+            Connection next = it.next();
+            if(next instanceof HuskyConnection) {
+                ((HuskyConnection) next).superClose();
+            }
+            it.remove();
+        }
+    }
 }
